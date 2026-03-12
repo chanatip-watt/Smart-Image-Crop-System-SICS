@@ -1,1 +1,1 @@
-# Smart-Image-Crop-System-SICS-
+# Smart-Image-Crop-System-SICS
