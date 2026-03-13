@@ -1,0 +1,46 @@
+.container{
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.title{
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.upload-box{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.file-input{
+  padding: 8px;
+}
+
+.send-btn{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1a73e8;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.send-btn:hover{
+  background-color: #1558b0;
+}
+
+.image-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 900px;
+  margin: auto;
+}

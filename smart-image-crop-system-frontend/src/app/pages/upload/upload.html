@@ -1,1 +1,27 @@
-<p>upload works!</p>
+<div class="container">
+
+  <h1 class="title">ระบบตัดภาพบุคคลด้วย AI</h1>
+
+  <div class="upload-box">
+    <input class="file-input" type="file" (change)="onFileSelected($event)">
+
+    <button class="send-btn" (click)="sendToAI()">
+       ส่งให้ AI ตัดภาพ
+    </button>
+  </div>
+
+</div>
+
+<div class="image-grid">
+
+  <app-show-img
+    [title]="'ภาพต้นฉบับ'"
+    [imageUrl]="url_img">
+  </app-show-img>
+
+  <app-show-img
+    [title]="'ภาพที่ AI ตัดแล้ว'"
+    [imageUrl]="result_img">
+  </app-show-img>
+
+</div>
