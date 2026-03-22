@@ -3,11 +3,22 @@
   <h1 class="title">ระบบตัดภาพบุคคลด้วย AI</h1>
 
   <div class="upload-box">
-    <input class="file-input" type="file" (change)="onFileSelected($event)">
+
+    <input
+      class="file-input"
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)">
+
+    <select class="select-box" (change)="onDetectTypeChange($event)">
+      <option value="face">เฉพาะใบหน้า</option>
+      <option value="person">ทั้งตัวบุคคล</option>
+    </select>
 
     <button class="send-btn" (click)="sendToAI()">
-       ส่งให้ AI ตัดภาพ
+      ส่งให้ AI ตัดภาพ
     </button>
+
   </div>
 
 </div>
@@ -23,5 +34,31 @@
     [title]="'ภาพที่ AI ตัดแล้ว'"
     [imageUrl]="result_img">
   </app-show-img>
+
+</div>
+
+<div class="overlay" *ngIf="alertMessage">
+
+  <div class="modal alert">
+
+    <h3>แจ้งเตือน</h3>
+    <p>{{ alertMessage }}</p>
+
+    <button class="close-btn" (click)="alertMessage = ''">
+      ปิด
+    </button>
+
+  </div>
+
+</div>
+
+<div class="overlay" *ngIf="loading">
+
+  <div class="modal loading">
+
+    <div class="spinner"></div>
+    <p>AI กำลังประมวลผลภาพ...</p>
+
+  </div>
 
 </div>

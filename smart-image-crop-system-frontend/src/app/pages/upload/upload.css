@@ -1,29 +1,32 @@
-.container{
+.container {
   max-width: 700px;
   margin: auto;
   text-align: center;
   margin-top: 40px;
 }
 
-.title{
+.title {
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 25px;
   color: #333;
 }
 
-.upload-box{
+.upload-box {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 40px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.file-input{
+.file-input,
+.select-box {
   padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-.send-btn{
+.send-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 6px;
@@ -33,14 +36,70 @@
   cursor: pointer;
 }
 
-.send-btn:hover{
+.send-btn:hover {
   background-color: #1558b0;
 }
 
-.image-grid{
+.image-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   max-width: 900px;
+  margin: 40px auto;
+}
+
+/* 🔥 Overlay (สำคัญมาก) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal กลางจอ */
+.modal {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 280px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+/* ปุ่มปิด */
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e53935;
+  color: white;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #c62828;
+}
+
+/* 🔵 Spinner */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #1a73e8;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
   margin: auto;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
