@@ -1,4 +1,6 @@
- AI Image Crop API
+## AI Image Crop Workflow
+
+![AI Image Crop Workflow](doc/flowchart/image-crop-flow.png)
 
  โปรแกรมส่งประกอบไปด้วย 
     doc
