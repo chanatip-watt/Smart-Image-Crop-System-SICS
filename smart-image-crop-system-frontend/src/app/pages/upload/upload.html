@@ -7,7 +7,7 @@
     <input
       class="file-input"
       type="file"
-      accept="image/*"
+      
       (change)="onFileSelected($event)">
 
     <select class="select-box" (change)="onDetectTypeChange($event)">
@@ -37,20 +37,7 @@
 
 </div>
 
-<div class="overlay" *ngIf="alertMessage">
-
-  <div class="modal alert">
-
-    <h3>แจ้งเตือน</h3>
-    <p>{{ alertMessage }}</p>
-
-    <button class="close-btn" (click)="alertMessage = ''">
-      ปิด
-    </button>
-
-  </div>
-
-</div>
+<app-alert [message]="alertMessage"></app-alert >
 
 <div class="overlay" *ngIf="loading">
 

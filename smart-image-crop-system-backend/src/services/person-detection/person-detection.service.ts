@@ -13,32 +13,55 @@ export class PersonDetectionService implements OnModuleInit {
   }
 
   async detectPerson(buffer: Buffer) {
+      let tensor: tf.Tensor3D | null = null;
 
-    const { data, info } = await sharp(buffer)
-        .removeAlpha()
-        .raw()
-        .toBuffer({ resolveWithObject: true });
+      try {
+          const { data, info } = await sharp(buffer)
+              .resize(512, 512, { fit: 'inside' })
+              .removeAlpha() 
+              .raw()
+              .toBuffer({ resolveWithObject: true });
 
-    const tensor = tf.tensor3d(
-      data,
-      [info.height, info.width, info.channels]
-    );
 
-    const predictions = await this.model.detect(tensor);
+          if (!info.width || !info.height || info.channels !== 3) {
+              throw new Error('Invalid image format');
+          }
 
-    const person = predictions.find(p => p.class === 'person');
+      
+          tensor = tf.tensor3d(new Uint8Array(data), [info.height, info.width, info.channels]);
 
-    if (!person) {
-      return null;
-    }
 
-    const [x, y, width, height] = person.bbox;
+          if (!this.model) {
+              throw new Error('Model not loaded');
+          }
 
-    return {
-      left: Math.floor(x),
-      top: Math.floor(y),
-      width: Math.floor(width),
-      height: Math.floor(height)
-    };
+          const predictions = await this.model.detect(tensor);
+
+          if (!predictions || predictions.length === 0) {
+              return null;
+          }
+
+          const person = predictions
+              .filter(p => p.class === 'person')
+              .sort((a, b) => (b.bbox[2] * b.bbox[3]) - (a.bbox[2] * a.bbox[3]))[0];
+
+          if (!person) return null;
+
+          const [x, y, width, height] = person.bbox;
+
+
+          return {
+              left: Math.max(0, Math.floor(x)),
+              top: Math.max(0, Math.floor(y)),
+              width: Math.max(0, Math.floor(width)),
+              height: Math.max(0, Math.floor(height))
+          };
+
+      } catch (error) {
+          console.error('detectPerson error:', error);
+          return null;
+      } finally {
+          if (tensor) tensor.dispose();
+      }
   }
 }

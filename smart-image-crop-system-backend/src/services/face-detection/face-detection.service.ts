@@ -13,33 +13,69 @@ export class FaceDetectionService implements OnModuleInit {
     }
 
     async detectFace(buffer: Buffer) {
-        const { data, info } = await sharp(buffer)
-              .removeAlpha()
-              .raw()
-              .toBuffer({ resolveWithObject: true });
+        let tensor: tf.Tensor3D | null = null;
 
-        const tensor = tf.tensor3d(
-            data,
-            [info.height, info.width, info.channels]
-        );
+        try {
 
+            const { data, info } = await sharp(buffer)
+                .resize(512, 512, { fit: 'inside' })
+                .removeAlpha()
+                .raw()
+                .toBuffer({ resolveWithObject: true });
 
-        const predictions = await this.model.estimateFaces(tensor, false);
+            if (!info.width || !info.height || info.channels !== 3) {
+                throw new Error('Invalid image format');
+            }
 
-        if (!predictions.length) {
+            tensor = tf.tensor3d(
+                new Uint8Array(data),
+                [info.height, info.width, info.channels]
+            );
+
+            if (!this.model) {
+                throw new Error('Model not loaded');
+            }
+
+            const predictions = await this.model.estimateFaces(tensor, false);
+
+            if (!predictions || predictions.length === 0) {
+                return null;
+            }
+
+            const face = predictions.reduce((prev, current) => {
+                const prevArea =
+                    (prev.bottomRight[0] - prev.topLeft[0]) *
+                    (prev.bottomRight[1] - prev.topLeft[1]);
+
+                const currArea =
+                    (current.bottomRight[0] - current.topLeft[0]) *
+                    (current.bottomRight[1] - current.topLeft[1]);
+
+                return currArea > prevArea ? current : prev;
+            });
+
+            const [x1, y1] = face.topLeft as number[];
+            const [x2, y2] = face.bottomRight as number[];
+
+            const left = Math.max(0, Math.floor(x1));
+            const top = Math.max(0, Math.floor(y1));
+            const width = Math.max(0, Math.floor(x2 - x1));
+            const height = Math.max(0, Math.floor(y2 - y1));
+
+            return {
+                left,
+                top,
+                width,
+                height
+            };
+
+        } catch (error) {
+            console.error('detectFace error:', error);
             return null;
+        } finally {
+            if (tensor) {
+                tensor.dispose();
+            }
         }
-
-        const face = predictions[0];
-
-        const [x1, y1] = face.topLeft as number[];
-        const [x2, y2] = face.bottomRight as number[];
-
-        return {
-            left: Math.floor(x1),
-            top: Math.floor(y1),
-            width: Math.floor(x2 - x1),
-            height: Math.floor(y2 - y1)
-        };
     }
 }

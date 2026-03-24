@@ -13,10 +13,10 @@ export class ImageService {
     private readonly cropService: CropService
   ) {}
 
-  async processImage(file: Express.Multer.File, type: string) {
+  async processImage(file: Express.Multer.File, type: 'face' | 'person') {
     if (!file) {
       throw new BadRequestException('ไม่มีการอัพโหลดไฟล์');
-    }
+    } else
 
     if (!file.mimetype.startsWith('image/')) {
       throw new BadRequestException('ไม่ใช่รูปภาพ');
@@ -28,7 +28,6 @@ export class ImageService {
     };
 
     const detect = detectors[type];
-
     if (!detect) {
       throw new BadRequestException('ประเภทการตรวจจับไม่ถูกต้อง');
     }
@@ -39,16 +38,7 @@ export class ImageService {
       throw new NotFoundException(`ไม่พบเป้าหมาย ${type} ในภาพ`);
     }
 
-    const { left, top, width, height } = box;
-
-    if (
-      left < 0 ||
-      top < 0 ||
-      width <= 0 ||
-      height <= 0
-    ) {
-      throw new BadRequestException('พิกัดไม่ถูกต้อง');
-    }
+    let { left, top, width, height } = box;
 
     const metadata = await sharp(file.buffer).metadata();
     const imageWidth = metadata.width;
@@ -58,14 +48,16 @@ export class ImageService {
       throw new BadRequestException('ไม่สามารถอ่านขนาดภาพได้');
     }
 
-    if (
-      left + width > imageWidth ||
-      top + height > imageHeight
-    ) {
-      throw new BadRequestException('พิกัดเกินขนาดของภาพ (Out of bounds)');
+    left = Math.max(0, Math.min(left, imageWidth - 1));
+    top = Math.max(0, Math.min(top, imageHeight - 1));
+    width = Math.max(0, Math.min(width, imageWidth - left));
+    height = Math.max(0, Math.min(height, imageHeight - top));
+
+    if (width <= 0 || height <= 0) {
+      throw new BadRequestException('พิกัดไม่ถูกต้องหลัง clamp');
     }
 
-    const cropped = await this.cropService.cropImage(file.buffer, box);
+    const cropped = await this.cropService.cropImage(file.buffer, { left, top, width, height });
 
     return cropped;
   }

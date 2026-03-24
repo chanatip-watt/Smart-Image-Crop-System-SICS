@@ -13,7 +13,7 @@ export class ImageApiService {
 
   constructor(private http: HttpClient) {}
 
-  processImage(data: UploadImageDTO): Observable<Blob> {
+  processImageApi(data: UploadImageDTO): Observable<Blob> {
 
     const formData = new FormData();
     formData.append('file', data.file);

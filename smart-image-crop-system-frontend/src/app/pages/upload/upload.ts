@@ -22,10 +22,6 @@ export class Upload {
     private cdr: ChangeDetectorRef
   ) {}
 
-  showAlert(message: string) {
-    this.alertMessage = message;
-  }
-
   onDetectTypeChange(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
     this.detectType = value as DetectType;
@@ -43,16 +39,13 @@ export class Upload {
   sendToAI() {
 
     if (!this.selectedFile) {
-      this.showAlert('กรุณาเลือกรูปก่อน');
+      this.alertMessage = 'กรุณาเลือกรูปก่อน';
       return;
-    }
-
-    if (!this.selectedFile.type.startsWith('image/')) {
-      this.showAlert('ไฟล์ไม่ถูกต้อง');
+    } else if (!this.selectedFile.type.startsWith('image/')) {
+      this.alertMessage = 'ไฟล์ไม่ถูกต้อง';
       return;
-    }
-
-    this.loading = true;
+    } else {
+       this.loading = true;
     this.alertMessage = '';
 
     const dto: UploadImageDTO = {
@@ -60,11 +53,10 @@ export class Upload {
       type: this.detectType
     };
 
-    this.imageApi.processImage(dto).subscribe({
+    this.imageApi.processImageApi(dto).subscribe({
 
       next: (res: Blob) => {
-        const img = URL.createObjectURL(res);
-        this.result_img = img;
+        this.result_img = URL.createObjectURL(res);
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -82,11 +74,13 @@ export class Upload {
           }
         }
 
-        this.showAlert(message);
+        this.alertMessage = message;
         this.loading = false;
         this.cdr.detectChanges();
       }
 
     });
+    }
+
   }
 }

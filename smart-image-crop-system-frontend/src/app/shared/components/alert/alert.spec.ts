@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowImg } from './show-img';
+import { Alert } from './alert';
 
-describe('ShowImg', () => {
-  let component: ShowImg;
-  let fixture: ComponentFixture<ShowImg>;
+describe('Alert', () => {
+  let component: Alert;
+  let fixture: ComponentFixture<Alert>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ShowImg],
+      declarations: [Alert],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ShowImg);
+    fixture = TestBed.createComponent(Alert);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

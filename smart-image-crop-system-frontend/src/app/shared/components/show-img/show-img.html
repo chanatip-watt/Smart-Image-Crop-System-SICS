@@ -4,9 +4,9 @@
 
   <div class="image-container">
 
-    <img *ngIf="imageUrl" [src]="imageUrl" />
+    <img *ngIf="currentImage" [src]="currentImage" />
 
-    <p *ngIf="!imageUrl">
+    <p *ngIf="!currentImage">
       ยังไม่มีรูปภาพ
     </p>
 

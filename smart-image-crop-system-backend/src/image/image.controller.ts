@@ -21,7 +21,7 @@ export class ImageController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
-    @Body('type') type: string,
+    @Body('type') type: 'face' | 'person',
     @Res() res: Response
   ) {
 
