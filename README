@@ -21,3 +21,4 @@ Tech Stack
     coco-ssd
         เลือกใช้ coco-ssd สำหรับการตรวจจับบุคคล (Person Detection) เนื่องจากเป็นโมเดล Object Detection ที่สามารถตรวจจับวัตถุได้หลายประเภท รวมถึงบุคคล โดยมีความแม่นยำในระดับที่เหมาะสม และสามารถใช้งานร่วมกับ TensorFlow.js ได้ง่าย เหมาะสำหรับการนำมาใช้ในระบบที่ต้องการตรวจจับวัตถุภายในภาพ
 
+![AI Image Crop Workflow](doc/flowchart/Image%20Crop%20Flow.png)
