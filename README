@@ -1,26 +1,183 @@
-## AI Image Crop Workflow
+# Smart-Image-Crop-System-SICS
+## สารบัญ
+## Overview
+AI Image Crop API เป็นระบบที่พัฒนาขึ้นเพื่อรับภาพจากผู้ใช้งาน และทำการตรวจจับใบหน้า (Face) หรือบุคคล (Person) ภายในภาพโดยใช้โมเดล AI จากนั้นจะทำการตัดภาพเฉพาะส่วนที่ตรวจจับได้ (Crop) และส่งผลลัพธ์กลับผ่าน API
 
-![AI Image Crop Workflow](doc/flowchart/image-crop-flow.png)
+## Project Structure
 
- โปรแกรมส่งประกอบไปด้วย 
-    doc
-    smart-image-crop-system-backend
-    smart-image-crop-system-frontend
+    Smart-Image-Crop-System-SICS/
+    ├── README
+    ├── doc/
+    │   └── flowchart/
+    │       ├── Backend/
+    │       └── frontend/
+    ├── smart-image-crop-system-backend/
+    │   ├── src/
+    │   │   ├── image/
+    │   │   └── services/
+    │   │       ├── crop/
+    │   │       ├── face-detection/
+    │   │       └── person-detection/
+    │   └── test/
+    └── smart-image-crop-system-frontend/
+        ├── public/
+        └── src/
+            └── app/
+                ├── pages/
+                │   └── upload/
+                ├── service/
+                │   ├── api/
+                │   └── dto/
+                └── shared/
+                    └── components/
+                        ├── alert/
+                        └── show-img/
 
-Tech Stack
 
-    Backend: NestJS
-    Frontend: Angular
-    AI Model: BlazeFace และ coco-ssd
+## Features
+- อัพโหลดรูปภาพผ่านทางเว็บอินเตอร์เฟส
+- ตรวจจับใบหน้าหรือบุคคลโดยใช้แบบจำลอง AI
+- ครอบตัดพื้นที่ที่ตรวจพบโดยอัตโนมัติ
+- แสดงภาพต้นฉบับและภาพที่ครอบตัด
+- จัดการกรณีอินพุตและขอบที่ไม่ถูกต้อง
+- รองรับการตรวจจับวัตถุหลักเพียง 1 รายการต่อภาพ (เช่น ใบหน้าหรือบุคคลแรกที่ตรวจพบ)
 
-เหตุผลสำหรับเลือกเครื่องมือ
-    NestJS
-        เลือกใช้ NestJS เนื่องจากเป็น Framework บน Node.js ที่มีโครงสร้างชัดเจน (Modular Architecture) เหมาะสำหรับการพัฒนา API ขนาดกลางถึงใหญ่ ทำให้โค้ดมีความเป็นระเบียบ ง่ายต่อการดูแลรักษา และสามารถแยกส่วนการทำงาน เช่น Controller, Service ได้อย่างชัดเจน อีกทั้งยังรองรับการทำงานแบบ asynchronous ได้ดี ซึ่งเหมาะกับงานประมวลผลภาพ
-    Angular
-        เลือกใช้ Angular เนื่องจากเป็น Framework ที่มีโครงสร้างครบถ้วน รองรับการพัฒนา Single Page Application (SPA) ได้อย่างมีประสิทธิภาพ และเหมาะกับการสร้าง UI ที่มีการจัดการ state และการเชื่อมต่อกับ API อย่างเป็นระบบ นอกจากนี้ Angular ยังช่วยให้สามารถจัดการ component และ logic ฝั่ง client ได้อย่างเป็นระเบียบ
-    BlazeFace
-        เลือกใช้ BlazeFace สำหรับการตรวจจับใบหน้า เนื่องจากเป็นโมเดลที่มีความเร็วสูง (Lightweight) และเหมาะกับงานที่ต้องการประมวลผลแบบรวดเร็ว สามารถตรวจจับใบหน้าได้ดีในภาพทั่วไป และเหมาะสำหรับการใช้งานร่วมกับระบบที่ต้องการ response time ต่ำ
-    coco-ssd
-        เลือกใช้ coco-ssd สำหรับการตรวจจับบุคคล (Person Detection) เนื่องจากเป็นโมเดล Object Detection ที่สามารถตรวจจับวัตถุได้หลายประเภท รวมถึงบุคคล โดยมีความแม่นยำในระดับที่เหมาะสม และสามารถใช้งานร่วมกับ TensorFlow.js ได้ง่าย เหมาะสำหรับการนำมาใช้ในระบบที่ต้องการตรวจจับวัตถุภายในภาพ
 
-![AI Image Crop Workflow](doc/flowchart/Image%20Crop%20Flow.png)
+## Tech Stack
+
+### Backend
+- NestJS (Node.js)  
+  ใช้ NestJS เนื่องจากเป็น framework ที่มีโครงสร้างชัดเจน (structured) รองรับการแยก module/service ได้ดี เหมาะสำหรับการพัฒนา API ที่ต้องการความ scalable และ maintainable ในระยะยาว
+
+### Frontend
+- Angular  
+  ใช้ Angular เนื่องจากเป็น framework แบบ component-based ที่ช่วยจัดการโครงสร้าง UI ได้เป็นระบบ เหมาะสำหรับการสร้างหน้าเว็บที่มีการจัดการ state เช่น การอัปโหลดภาพ แสดงผลลัพธ์ และสถานะการประมวลผล
+
+### AI / Machine Learning
+- @tensorflow-models/blazeface (Face Detection)  
+  เลือกใช้ BlazeFace เพราะเป็นโมเดลที่มีขนาดเล็กและทำงานได้รวดเร็ว เหมาะกับงานตรวจจับใบหน้าแบบ real-time และสามารถใช้งานร่วมกับ TensorFlow.js ได้ง่ายใน Node.js
+
+- @tensorflow-models/coco-ssd (Person Detection)  
+  เลือกใช้ COCO-SSD เนื่องจากเป็นโมเดลสำหรับ object detection ที่สามารถตรวจจับบุคคลได้แม่นยำ และรองรับหลายคลาส ทำให้สามารถนำไปขยายต่อในอนาคตได้
+
+### Image Processing
+- Sharp  
+  ใช้ Sharp สำหรับการ crop และจัดการภาพ เนื่องจากมีประสิทธิภาพสูง ทำงานเร็ว และรองรับการจัดการ buffer ได้ดี เหมาะกับงาน backend ที่ต้องประมวลผลภาพ
+ ## API Endpoint
+
+### POST /image/process-image
+
+ใช้สำหรับอัปโหลดรูปภาพและให้ระบบตรวจจับ (Face หรือ Person) จากนั้นทำการครอบตัดภาพเฉพาะส่วนที่ตรวจพบ
+
+---
+
+### Request
+
+**Content-Type:** multipart/form-data
+
+| Field | Type   | Description                          
+|------|--------|--------------------------------------
+| file | File   | ไฟล์รูปภาพที่ต้องการประมวลผล        
+| type | String | ประเภทการตรวจจับ ("face" หรือ "person") 
+
+---
+
+### Response
+
+- **200 OK**  
+  ส่งกลับเป็นไฟล์ภาพ (image/jpeg) ที่ถูกครอบตัดแล้ว
+
+---
+
+### Error Responses
+
+- **400 Bad Request**
+  - ไม่มีการอัปโหลดไฟล์
+  - ไฟล์ไม่ใช่รูปภาพ
+  - ประเภทการตรวจจับไม่ถูกต้อง
+  - ไม่สามารถอ่านขนาดภาพได้
+  - พิกัดครอบภาพไม่ถูกต้อง
+
+- **404 Not Found**
+  - ไม่พบเป้าหมาย (face หรือ person) ในภาพ
+
+---
+
+### Example (cURL)
+
+
+    curl -X POST http://localhost:3000/image/process-image \
+      -F "file=@test.jpg" \
+      -F "type=face" \
+      --output result.jpg
+
+## System Flow (Sequence Diagram)
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User as User
+    participant UI as Frontend (Angular)
+    participant AS as Backend API (NestJS)
+    participant IS as Image Service
+    participant FS as Face Detection Service (BlazeFace)
+    participant PS as Person Detection Service (coco-ssd)
+    participant CS as Crop Service
+
+    User->>UI: เลือกรูปและกด "ส่งให้ AI ตัดภาพ"
+    alt ยังไม่ได้เลือกรูป
+        UI-->>User: แจ้งเตือน "กรุณาเลือกรูปก่อน"
+    else เลือกไฟล์แต่ไม่ใช่รูปภาพ
+        UI-->>User: แจ้งเตือน "ไฟล์ไม่ถูกต้อง"
+    else ข้อมูลผ่าน validation ฝั่งหน้าเว็บ
+        UI->>AS: POST /image/process-image (file, type)
+        AS->>IS: processImage(file, type)
+
+        alt ไม่มีไฟล์ใน request
+            IS-->>AS: 400 BadRequest
+            AS-->>UI: 400 BadRequest ("ไม่มีการอัพโหลดไฟล์")
+            UI-->>User: แสดงข้อความ error จาก API
+        else mimetype ไม่ใช่ image/*
+            IS-->>AS: 400 BadRequest
+            AS-->>UI: 400 BadRequest ("ไม่ใช่รูปภาพ")
+            UI-->>User: แสดงข้อความ error จาก API
+        else type ไม่ใช่ face/person
+            IS-->>AS: 400 BadRequest
+            AS-->>UI: 400 BadRequest ("ประเภทการตรวจจับไม่ถูกต้อง")
+            UI-->>User: แสดงข้อความ error จาก API
+        else type = face หรือ person
+            alt type = face
+                IS->>FS: detectFace(buffer)
+                FS-->>IS: bounding box หรือ null
+            else type = person
+                IS->>PS: detectPerson(buffer)
+                PS-->>IS: bounding box หรือ null
+            end
+
+            alt detector คืนค่า null (ไม่พบ/โมเดลไม่พร้อม/ประมวลผลผิดพลาด)
+                IS-->>AS: 404 NotFound
+                AS-->>UI: 404 NotFound ("ไม่พบเป้าหมาย {type} ในภาพ")
+                UI-->>User: แสดงข้อความไม่พบเป้าหมาย
+            else อ่าน metadata ไม่ได้
+                IS-->>AS: 400 BadRequest
+                AS-->>UI: 400 BadRequest ("ไม่สามารถอ่านขนาดภาพได้")
+                UI-->>User: แสดงข้อความ error จาก API
+            else clamp แล้วพิกัด width/height ไม่ถูกต้อง
+                IS-->>AS: 400 BadRequest
+                AS-->>UI: 400 BadRequest ("พิกัดไม่ถูกต้องหลัง clamp")
+                UI-->>User: แสดงข้อความ error จาก API
+            else ข้อมูลพร้อมครอป
+                IS->>CS: cropImage(buffer, box)
+                CS-->>IS: cropped buffer (jpeg)
+                IS-->>AS: cropped buffer (jpeg)
+                AS-->>UI: 200 OK (image/jpeg)
+                UI-->>User: แสดงภาพที่ AI ตัดแล้ว
+            end
+        end
+
+        alt UI อ่าน blob error ไม่สำเร็จ
+            UI-->>User: แจ้งเตือน "ไม่สามารถอ่าน error ได้"
+        else เกิด error อื่นที่ไม่รู้สาเหตุ
+            UI-->>User: แจ้งเตือน "เกิดข้อผิดพลาด"
+        end
+    end
+   ```
