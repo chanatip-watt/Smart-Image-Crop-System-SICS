@@ -17,7 +17,6 @@ export class PersonDetectionService implements OnModuleInit {
 
       try {
           const { data, info } = await sharp(buffer)
-              .resize(512, 512, { fit: 'inside' })
               .removeAlpha() 
               .raw()
               .toBuffer({ resolveWithObject: true });

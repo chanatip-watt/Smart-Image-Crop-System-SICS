@@ -103,3 +103,35 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.example-grid {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.example-item {
+  text-align: center;
+}
+
+.example-item img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+}
+
+.good {
+  color: green;
+}
+
+.bad {
+  color: red;
+}
+
+.title-sup {
+  text-align: center;
+}

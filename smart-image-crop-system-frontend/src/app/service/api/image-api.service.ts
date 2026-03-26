@@ -9,7 +9,7 @@ import { UploadImageDTO } from '../dto/upload-Image.dto';
 })
 export class ImageApiService {
 
-  private apiUrl = 'http://localhost:3000/image';
+  private apiUrl = 'https://api.code-boneyard.online/image';
 
   constructor(private http: HttpClient) {}
 

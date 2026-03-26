@@ -5,7 +5,8 @@ import {
   UseInterceptors,
   BadRequestException,
   Body,
-  Res
+  Res,
+  HttpCode
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -18,6 +19,7 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post('process-image')
+  @HttpCode(200)
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,

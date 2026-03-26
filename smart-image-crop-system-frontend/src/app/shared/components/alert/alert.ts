@@ -8,4 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 export class Alert {
   @Input() message: string = '';
+
+  closeAlert() {
+    this.message = '';
+  }
 }
