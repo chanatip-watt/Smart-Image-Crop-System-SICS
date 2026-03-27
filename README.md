@@ -1,3 +1,4 @@
+
 # Smart-Image-Crop-System-SICS
 ## สารบัญ
 ## Overview
@@ -181,3 +182,39 @@ sequenceDiagram
         end
     end
 ```
+
+## 🚀 Setup & Installation
+
+### 1. Clone Repository
+
+    git clone https://github.com/chanatip-watt/Smart-Image-Crop-System-SICS.git
+    cd Smart-Image-Crop-System-SICS
+
+## 🧩 Backend (NestJS)
+
+### 📦 ติดตั้ง Dependencies
+
+    cd smart-image-crop-system-backend
+    npm install
+### ▶️ รัน Backend
+
+    npm run start
+
+### 🌐 URL
+
+    http://localhost:3000
+## 🎨 Frontend (Angular)
+
+### 📦 ติดตั้ง Dependencies
+
+    cd smart-image-crop-system-frontend  
+    npm install
+
+### ▶️ รัน Frontend
+
+    ng serve
+
+### 🌐 URL
+
+    http://localhost:4200
+
