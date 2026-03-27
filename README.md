@@ -1,6 +1,31 @@
 
 # Smart-Image-Crop-System-SICS
-## สารบัญ
+## 📑 สารบัญ (Table of Contents)  
+  
+1. [Overview](#overview)  
+2. [Project Structure](#project-structure)  
+3. [Features](#features)  
+4. [Tech Stack](#tech-stack)  
+- [Backend](#backend)  
+- [Frontend](#frontend)  
+- [AI / Machine Learning](#ai--machine-learning)  
+- [Image Processing](#image-processing)  
+5. [API Endpoint](#api-endpoint)  
+- [POST /image/process-image](#post-imageprocess-image)  
+- [Request](#request)  
+- [Response](#response)  
+- [Error Responses](#error-responses)  
+- [Example (cURL)](#example-curl)  
+6. [System Flow (Sequence Diagram)](#system-flow-sequence-diagram)  
+7. [Setup & Installation](#setup--installation)  
+- [Backend (NestJS)](#backend-nestjs)  
+- [ติดตั้ง Dependencies](#-ติดตั้ง-dependencies)  
+- [รัน Backend](#-รัน-backend)  
+- [URL](#-url)  
+- [Frontend (Angular)](#frontend-angular)  
+- [ติดตั้ง Dependencies](#-ติดตั้ง-dependencies-1)  
+- [รัน Frontend](#-รัน-frontend)  
+- [URL](#-url-1)
 ## Overview
 AI Image Crop API เป็นระบบที่พัฒนาขึ้นเพื่อรับภาพจากผู้ใช้งาน และทำการตรวจจับใบหน้า (Face) หรือบุคคล (Person) ภายในภาพโดยใช้โมเดล AI จากนั้นจะทำการตัดภาพเฉพาะส่วนที่ตรวจจับได้ (Crop) และส่งผลลัพธ์กลับผ่าน API
 
